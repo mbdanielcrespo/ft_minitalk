@@ -78,7 +78,7 @@ int main(int ac, char **av)
         ft_printf("Sending ... ch = %c\n", str_to_send[i]);
         send_ch_by_bit(str_to_send[i], pid);
     }
-    ft_printf("Sending ... ch = %c\n", str_to_send[i]);
+    ft_printf("Sending ... ch = %c\n", str_to_send[i]);         // Send null byte
     send_ch_by_bit(str_to_send[i], pid);
     return (0);
 }

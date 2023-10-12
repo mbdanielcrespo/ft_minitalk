@@ -5,7 +5,7 @@
 # include <signal.h>
 
 //# define SIGUSR1 30
-# define SIGUSR2 31
-# define WAIT 100           //ms
+//# define SIGUSR2 31
+# define WAIT 1000           //ms
 
 #endif
