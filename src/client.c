@@ -1,6 +1,8 @@
 
 #include "../inc/minitalk.h"
 
+// This function checks for the possible errors that the provided PID may have and rules out any chance of a wrong PID
+
 int pid_error(int ac, char **av)
 {
     int i;
@@ -60,12 +62,23 @@ int main(int ac, char **av)
     int     i;
 
     if (pid_error(ac, av))
+    {
+        ft_printf("PID error\n");
         return (-1);
-    str_to_send = av[2];
+    }
+    
     pid = ft_atoi(av[1]);
+    str_to_send = av[2];
+    ft_printf("PID found: %d!\n", pid);
+    ft_printf("Str to send: %s, Str lenght: %d\n", str_to_send, ft_strlen(str_to_send));
     i = -1;
     send_len_by_bit(ft_strlen(str_to_send), pid);
     while (str_to_send[++i])
+    {
+        ft_printf("Sending ... ch = %c\n", str_to_send[i]);
         send_ch_by_bit(str_to_send[i], pid);
+    }
+    ft_printf("Sending ... ch = %c\n", str_to_send[i]);
     send_ch_by_bit(str_to_send[i], pid);
+    return (0);
 }

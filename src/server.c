@@ -17,11 +17,13 @@ void    recive_len(int *current_bit, char **str, int *recived, int signal)
 		len = 0;
 	}
 	(*current_bit++);
+	ft_printf("lenght: %d, current_bit: %d, recived: %d\n", len, current_bit, recived);
 }
 
 void	restart_variables(int *len, char **str, int *i)
 {
 	*len = 0;
+	printf("Restarting variables ...\n");
 	if (str)
 	{
 		ft_printf("%s", *str);
@@ -46,11 +48,17 @@ void	recive_client_data(int signal)
 	*final_str = 0;
 
 	if (!len)
+	{
 		recive_len(&current_bit, &final_str, &len, signal);
+		ft_printf("Recived len: %d\n", len);
+	}
 	else
 	{
 		if (signal = SIGUSR2);
+		{
 			char_val |= (1 << current_bit);
+			ft_printf("current_bit: %d, char_val: %c\n", current_bit, char_val);
+		}
 		if (current_bit == 7)
 		{
 			final_str[i++] = char_val;
