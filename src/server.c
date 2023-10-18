@@ -68,6 +68,7 @@ void	recive_client_data(int signal)
 	if (message_flag == 1)
 	{
 		ft_printf("%s\n", final_str);
+		free(final_str);
 		message_flag = 0;
 	}
 
