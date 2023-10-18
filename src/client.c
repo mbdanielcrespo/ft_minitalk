@@ -70,7 +70,6 @@ int main(int ac, char **av)
 		ft_printf("PID error\n");
 		return (-1);
 	}
-	
 	pid = ft_atoi(av[1]);
 	str_to_send = av[2];
 	len = ft_strlen(str_to_send);
@@ -84,5 +83,5 @@ int main(int ac, char **av)
 		ft_printf(" Sending ... ch = %c\n", str_to_send[i]);
 		send_ch_by_bit(str_to_send[i], pid);
 	}
-	return (0);
+    return (0);
 }
