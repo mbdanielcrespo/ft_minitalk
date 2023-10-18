@@ -1,85 +1,102 @@
 #include "../inc/minitalk.h"
 
-void    recive_len(int *current_bit, char **str, int *recived, int signal)
+void	init_var(int *i)
 {
-	static int	len;
+	if (!i)
+		i = 0;
+}
+// 10100000000000000000000000000000 00010110 10100110 00110110 00110110 11110110
+// 101000000000000000000000000000000001011010100110001101100011011011110110
 
-	len = 0;
-	if (signal == SIGUSR2)
-		len |= (1 << *current_bit);
-	if (*current_bit == 31)
+void	recive_len(int signal, int *rec_len, int *len_flag, char **final_str)
+{
+	static int	i;
+
+	init_var(&i);
+	if (i < 31 && signal == 1)
+		*rec_len = *rec_len + ft_pow(2, i);
+	else if (i == 31)
 	{
-		*recived = 1;
-		*str = (char *)malloc(len + 1);
-		if (*str == NULL)
-			exit(1);
-		*current_bit = 0;
-		len = 0;
+		*final_str = malloc((sizeof(char) * *rec_len) + 1);
+		if (!final_str)
+			return ;
+		*len_flag = 1;
 	}
-	(*current_bit++);
-	ft_printf("lenght: %d, current_bit: %d, recived: %d\n", len, current_bit, recived);
+	i++;
+	//printf("Signal: %d, Iteration: %d, Flag: %d\n", signal, i, *len_flag);
 }
 
-void	restart_variables(int *len, char **str, int *i)
+void	recive_str(int signal, int message_len, int *message_flag, char **final_str)
 {
-	*len = 0;
-	printf("Restarting variables ...\n");
-	if (str)
+	static int	i;
+	static int	c;
+	static char	ch;
+
+	init_var(&i);
+	init_var(&c);
+	//printf("Signal: %d, Iteration: %d, Character %d\n", signal, i, c);
+	if (i < 8 && signal == 1)
+		ch = ch + (char)ft_pow(2, i);
+	i++;
+	if (i == 8)
 	{
-		ft_printf("%s", *str);
-		free(*str);
-		*str = 0;
+		i = 0;
+		//printf("Added char: %c\n", ch);
+		(*final_str)[c] = ch;
+		ch = 0;
+		c++;
 	}
-	*i = 0;
+	if (c == message_len)
+	{
+		(*final_str)[c] = '\0';
+		*message_flag = 1;
+	}
 }
 
 void	recive_client_data(int signal)
 {
-	int	char_val;
-	int	current_bit;
-	int	len;
-	int i;
-	char *final_str;
+	static int	message_len;
+	static int  len_flag;
+	static int	message_flag;
+	static char	*final_str;
 
-	char_val = 0;
-	current_bit = 0;
-	len = 0;
-	i = 0;
-	*final_str = 0;
-
-	if (!len)
-	{
-		recive_len(&current_bit, &final_str, &len, signal);
-		ft_printf("Recived len: %d\n", len);
-	}
+	init_var(&message_len);
+	init_var(&len_flag);
+	init_var(&message_flag);
+	if (len_flag == 0)
+		recive_len(signal, &message_len, &len_flag, &final_str);
 	else
+		recive_str(signal, message_len, &message_flag, &final_str);
+	if (message_flag == 1)
 	{
-		if (signal = SIGUSR2);
-		{
-			char_val |= (1 << current_bit);
-			ft_printf("current_bit: %d, char_val: %c\n", current_bit, char_val);
-		}
-		if (current_bit == 7)
-		{
-			final_str[i++] = char_val;
-			current_bit = 0;
-			if (char_val == 0)
-				return (restart_variables(&len, &final_str, &i));
-			char_val = 0;
-			return ;
-		}
-		current_bit++;
+		ft_printf("%s\n", final_str);
+		message_flag = 0;
 	}
+
 }
 
 int main(int ac, char **av)
 {
     int pid;
+	static int i;
 
+	init_var(&i);
+	//test_str = "101000000000000000000000000000000001011010100110001101100011011011110110";
+	//test_str_len = 32 + 8 * n_chars;
+	if (ac == 2)
+		ft_printf("Two parametres!\n");
     pid = (int)(getpid());
 	ft_printf("%d\n", pid);
-	signal(SIGUSR1, recive_client_data);
-	signal(SIGUSR2, recive_client_data);
+	//ft_printf("\nTest str: %s\n", test_str);
+	//ft_printf("Test str len: %d\n", test_str_len);
+	while (i < (int)ft_strlen(av[1]))
+	{
+		recive_client_data(av[1][i] - '0');
+		i++;
+	}
+	//signal(SIGUSR1, recive_client_data); 
+	//signal(SIGUSR2, recive_client_data);
+	
 	while (1)
 		usleep(WAIT);
 }

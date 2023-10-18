@@ -76,11 +76,12 @@ void	ft_putstr_fd(char *s, t_i32 fd);
 //t_list	*ft_lstnew(void *content);
 //t_i32	ft_lstsize(t_list *lst);
 
-int	ft_printf(const char *str, ...);
-int	ft_print_ptr(unsigned long ptr);
+int		ft_printf(const char *str, ...);
+int		ft_print_ptr(unsigned long ptr);
 int		ft_putchar_fdp(t_i8 c, t_i32 fd);
 void	ft_putendl_fd(char *s, t_i32 fd);
 int		ft_putnbr_fdp(t_i32 n, t_i32 fd);
 int		ft_putstr_fdp(char *s, t_i32 fd);
+int		ft_pow(int num, int pow);
 
 #endif
