@@ -1,8 +1,6 @@
 
 #include "../inc/minitalk.h"
 
-// This function checks for the possible errors that the provided PID may have and rules out any chance of a wrong PID
-
 int pid_error(int ac, char **av)
 {
 	int i;
@@ -28,11 +26,9 @@ void    send_ch_by_bit(unsigned int c, int pid)
 	while (++i < 8)
 	{
 		if (c & 0x01)
-			//kill(pid, SIGUSR1);
-			printf("1");
+			kill(pid, SIGUSR1);
 		else
-			//kill(pid, SIGUSR2);
-			printf("0");
+			kill(pid, SIGUSR2);
 		c = c >> 1;
 		usleep(WAIT);
 	}
@@ -47,11 +43,9 @@ void    send_len_by_bit(int str_len, int pid)
 	while (++i < 32)
 	{
 		if (str_len & 0x01)
-			//kill(pid, SIGUSR1);
-			printf("1");
+			kill(pid, SIGUSR1);
 		else 
-			//kill(pid, SIGUSR2);
-			printf("0");
+			kill(pid, SIGUSR2);
 		str_len = str_len >> 1;
 		usleep(WAIT);
 	}
@@ -62,7 +56,6 @@ int main(int ac, char **av)
 {
 	int     pid;
 	char    *str_to_send;
-	int     len;
 	int     i;
 
 	if (pid_error(ac, av))

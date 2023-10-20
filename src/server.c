@@ -11,7 +11,7 @@ void	recive_len(int signal, int *rec_len, int *len_flag, char **final_str)
 	static int	i;
 
 	init_var(&i);
-	if (i < 31 && signal == 1)
+	if (i < 31 && signal == SIGUSR1)
 		*rec_len = *rec_len + ft_pow(2, i);
 	else if (i == 31)
 	{
@@ -33,7 +33,7 @@ void	recive_str(int signal, int message_len, int *message_flag, char **final_str
 	init_var(&i);
 	init_var(&c);
 	//printf("Signal: %d, Iteration: %d, Character %d\n", signal, i, c);
-	if (i < 8 && signal == 1)
+	if (i < 8 && signal == SIGUSR1)
 		ch = ch + (char)ft_pow(2, i);
 	i++;
 	if (i == 8)
@@ -74,7 +74,7 @@ void	recive_client_data(int signal)
 
 }
 
-int main(int ac, char **av)
+int main()
 {
     int pid;
 	static int i;
@@ -82,20 +82,12 @@ int main(int ac, char **av)
 	init_var(&i);
 	//test_str = "101000000000000000000000000000000001011010100110001101100011011011110110";
 	//test_str_len = 32 + 8 * n_chars;
-	if (ac == 2)
-		ft_printf("Two parametres!\n");
     pid = (int)(getpid());
 	ft_printf("%d\n", pid);
 	//ft_printf("\nTest str: %s\n", test_str);
 	//ft_printf("Test str len: %d\n", test_str_len);
-	while (i < (int)ft_strlen(av[1]))
-	{
-		recive_client_data(av[1][i] - '0');
-		i++;
-	}
-	//signal(SIGUSR1, recive_client_data); 
-	//signal(SIGUSR2, recive_client_data);
-	
+	signal(SIGUSR1, recive_client_data); 
+	signal(SIGUSR2, recive_client_data);
 	while (1)
 		usleep(WAIT);
 }

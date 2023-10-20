@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 20:08:49 by danalmei          #+#    #+#             */
-/*   Updated: 2023/05/03 17:49:43 by danalmei         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:47:33 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h> //#Remove
 # include <unistd.h>
 # include <stdarg.h>
-# include "../ft_libft/libft.h"
+# include "libft.h"
 
 int	ft_printf(const char *str, ...);
 int	ft_print_ptr(unsigned long ptr);
