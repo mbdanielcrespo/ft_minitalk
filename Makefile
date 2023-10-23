@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS =  -Wall -Wextra -Werror # -g -fsanitize=address
 
 SERVER = server
 CLIENT = client
@@ -10,18 +10,18 @@ SERVER_OBJS = $(SERVER_SRCS:.c=.o)
 CLIENT_SRCS = src/client.c
 CLIENT_OBJS = $(CLIENT_SRCS:.c=.o)
 
-LIBFT = libft/libft.a
-
-$(LIBFT):
-	make -C libft
+LIBFT = libft/ft_libft.a
 
 all: $(SERVER) $(CLIENT)
 
-$(SERVER): $(LIBFT) $(SERVER_OBJS) 
-	$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJS) -Llibft -lft
+$(SERVER): $(SERVER_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJS) -L./libft -lft
 
-$(CLIENT): $(LIBFT) $(CLIENT_OBJS) 
-	$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJS) -Llibft -lft
+$(CLIENT): $(CLIENT_OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJS) -L./libft -lft
+
+$(LIBFT):
+	make -C libft
 
 clean:
 	cd libft && make clean

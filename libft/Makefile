@@ -1,9 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-LIBFT_DIR = ./ft_libft
-SRC_DIR = $(LIBFT_DIR)
-
 SRC_FILES = ft_atoi.c ft_isascii.c ft_memcmp.c ft_putchar_fd.c ft_putstr_fd.c \
             ft_striteri.c ft_strmapi.c ft_substr.c ft_bzero.c ft_isdigit.c \
             ft_memcpy.c ft_putchar_fdp.c ft_putstr_fdp.c ft_strjoin.c ft_strncmp.c \
@@ -17,11 +14,11 @@ SRC_FILES = ft_atoi.c ft_isascii.c ft_memcmp.c ft_putchar_fd.c ft_putstr_fd.c \
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
-OUTPUT_LIB = ft_libft.a
+OUTPUT_LIB = libft.a
 
 all: $(OUTPUT_LIB)
 
-%.o: $(SRC_DIR)/%.c
+%.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OUTPUT_LIB): $(OBJ_FILES)

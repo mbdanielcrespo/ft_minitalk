@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danalmei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 12:49:56 by danalmei          #+#    #+#             */
-/*   Updated: 2023/04/12 12:50:36 by danalmei         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:26:37 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ t_size	ft_strlen(const char *str)
 
 	c = 0;
 	while (str[c] != '\0')
-	{
 		c++;
-	}
 	return (c);
 }

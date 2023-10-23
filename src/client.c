@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 19:11:56 by danalmei          #+#    #+#             */
+/*   Updated: 2023/10/23 19:29:46 by danalmei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-int pid_error(int ac, char **av)
+int	pid_error(int ac, char **av)
 {
-	int i;
+	int	i;
 
 	if (ac != 3)
 		return (1);
@@ -18,45 +29,42 @@ int pid_error(int ac, char **av)
 	return (0);
 }
 
-void    send_ch_by_bit(unsigned int c, int pid)
+void	send_ch_by_bit(unsigned int c, int pid)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 8)
 	{
-		if (c & 0x01)
+		if ((c >> i) & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		c = c >> 1;
 		usleep(WAIT);
 	}
-	
 }
 
-void    send_len_by_bit(int str_len, int pid)
+void	send_len_by_bit(int str_len, int pid)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 32)
 	{
-		if (str_len & 0x01)
+		if ((str_len >> i) & 1)
 			kill(pid, SIGUSR1);
 		else 
 			kill(pid, SIGUSR2);
-		str_len = str_len >> 1;
 		usleep(WAIT);
 	}
-	
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	int     pid;
-	char    *str_to_send;
-	int     i;
+	int		pid;
+	char	*str_to_send;
+	int		len;
+	int		i;
 
 	if (pid_error(ac, av))
 	{
@@ -66,15 +74,10 @@ int main(int ac, char **av)
 	pid = ft_atoi(av[1]);
 	str_to_send = av[2];
 	len = ft_strlen(str_to_send);
-	//ft_printf("PID found: %d!\n", pid);
-	//ft_printf("Lenght: %d\n", len);
-	//ft_printf("String: %s\n", str_to_send);
 	i = -1;
-	send_len_by_bit(ft_strlen(str_to_send), pid);
+	send_len_by_bit(len, pid);
 	while (str_to_send[++i])
-	{
-		ft_printf(" Sending ... ch = %c\n", str_to_send[i]);
 		send_ch_by_bit(str_to_send[i], pid);
-	}
-    return (0);
+	ft_printf("Sent str: %s, with len: %d\n", str_to_send, len);
+	return (0);
 }

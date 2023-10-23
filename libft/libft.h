@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:53:02 by danalmei          #+#    #+#             */
-/*   Updated: 2023/10/20 17:47:03 by danalmei         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:16:46 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-typedef signed char		t_i8;
-typedef unsigned char	t_u8;
+typedef signed char				t_i8;
+typedef unsigned char			t_u8;
 typedef const unsigned char		t_cuc;
-typedef signed int		t_i32;
-typedef unsigned int	t_u32;
-typedef signed long long int		t_i64;
+typedef signed int				t_i32;
+typedef unsigned int			t_u32;
+typedef signed long long int	t_i64;
 
-typedef size_t			t_size;
+typedef size_t					t_size;
 
 typedef struct s_list
 {
-	void		*content;
-	struct s_list		*next;
+	void			*content;
+	struct s_list	*next;
 }		t_list;
 
 void	ft_bzero(void *str, t_size n);
@@ -39,7 +39,7 @@ void	*ft_memset(void	*ptr, t_i32 ch, t_size n);
 void	*ft_memcpy(void	*destptr, const void *srcptr, t_size n);
 void	*ft_memchr(const void *s, t_i32 ch, t_size n);
 void	*ft_memmove(void *destptr, const void *srcptr, t_size n);
-int	ft_memcmp(const void *s1, const void *s2, t_size n);
+int		ft_memcmp(const void *s1, const void *s2, t_size n);
 t_i32	ft_isdigit(t_i32 c);
 t_i32	ft_isascii(t_i32 c);
 t_i32	ft_isprint(t_i32 c);
@@ -76,13 +76,13 @@ void	ft_putstr_fd(char *s, t_i32 fd);
 //t_list	*ft_lstnew(void *content);
 //t_i32	ft_lstsize(t_list *lst);
 
-int	ft_printf(const char *str, ...);
-int	ft_print_ptr(unsigned long ptr);
+int		ft_printf(const char *str, ...);
+int		ft_print_ptr(unsigned long ptr);
 int		ft_putchar_fdp(t_i8 c, t_i32 fd);
 void	ft_putendl_fd(char *s, t_i32 fd);
 int		ft_putnbr_fdp(t_i32 n, t_i32 fd);
 int		ft_putstr_fdp(char *s, t_i32 fd);
 
-int ft_pow(int num, int pow);
+int		ft_pow(int num, int pow);
 
 #endif

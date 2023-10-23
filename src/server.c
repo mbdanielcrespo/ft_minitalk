@@ -1,93 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 19:26:53 by danalmei          #+#    #+#             */
+/*   Updated: 2023/10/23 19:31:54 by danalmei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minitalk.h"
 
-void	init_var(int *i)
-{
-	if (!i)
-		i = 0;
-}
-
-void	recive_len(int signal, int *rec_len, int *len_flag, char **final_str)
+char	*recive_len(int signal, int *rec_len)
 {
 	static int	i;
+	char		*final_str;
 
-	init_var(&i);
 	if (i < 31 && signal == SIGUSR1)
 		*rec_len = *rec_len + ft_pow(2, i);
 	else if (i == 31)
 	{
-		*final_str = malloc((sizeof(char) * *rec_len) + 1);
+		final_str = ft_calloc(*rec_len + 1, sizeof(char));
 		if (!final_str)
-			return ;
-		*len_flag = 1;
+			return (NULL);
+		ft_printf("Memory was allocatd for %d\n", *rec_len);
+		i = 0;
+		return (final_str);
 	}
 	i++;
-	//printf("Signal: %d, Iteration: %d, Flag: %d\n", signal, i, *len_flag);
+	return (NULL);
 }
 
-void	recive_str(int signal, int message_len, int *message_flag, char **final_str)
+int	recive_str(int signal, int message_len, char *final_str)
 {
 	static int	i;
-	static int	c;
 	static char	ch;
+	static int	c;
 
-	init_var(&i);
-	init_var(&c);
-	//printf("Signal: %d, Iteration: %d, Character %d\n", signal, i, c);
 	if (i < 8 && signal == SIGUSR1)
 		ch = ch + (char)ft_pow(2, i);
 	i++;
 	if (i == 8)
 	{
 		i = 0;
-		//printf("Added char: %c\n", ch);
-		(*final_str)[c] = ch;
+		final_str[c] = ch;
 		ch = 0;
 		c++;
+		if (c == message_len)
+		{
+			c = 0;
+			return (1);
+		}
 	}
-	if (c == message_len)
-	{
-		(*final_str)[c] = '\0';
-		*message_flag = 1;
-	}
+	return (0);
 }
 
 void	recive_client_data(int signal)
 {
 	static int	message_len;
-	static int  len_flag;
-	static int	message_flag;
 	static char	*final_str;
 
-	init_var(&message_len);
-	init_var(&len_flag);
-	init_var(&message_flag);
-	if (len_flag == 0)
-		recive_len(signal, &message_len, &len_flag, &final_str);
-	else
-		recive_str(signal, message_len, &message_flag, &final_str);
-	if (message_flag == 1)
+	if (final_str == NULL)
+	{
+		final_str = recive_len(signal, &message_len);
+	}
+	else if (recive_str(signal, message_len, final_str))
 	{
 		ft_printf("%s\n", final_str);
+		ft_printf("Memory was freed for <%s>\n", final_str);
 		free(final_str);
-		message_flag = 0;
+		final_str = NULL;
+		message_len = 0;
 	}
-
 }
 
-int main()
+int	main(void)
 {
-    int pid;
-	static int i;
+	int	pid;
 
-	init_var(&i);
-	//test_str = "101000000000000000000000000000000001011010100110001101100011011011110110";
-	//test_str_len = 32 + 8 * n_chars;
-    pid = (int)(getpid());
+	pid = (int)(getpid());
 	ft_printf("%d\n", pid);
-	//ft_printf("\nTest str: %s\n", test_str);
-	//ft_printf("Test str len: %d\n", test_str_len);
 	signal(SIGUSR1, recive_client_data); 
 	signal(SIGUSR2, recive_client_data);
 	while (1)
-		usleep(WAIT);
+		;
 }
