@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 19:11:56 by danalmei          #+#    #+#             */
-/*   Updated: 2023/10/23 19:29:46 by danalmei         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:29:58 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,5 @@ int	main(int ac, char **av)
 	send_len_by_bit(len, pid);
 	while (str_to_send[++i])
 		send_ch_by_bit(str_to_send[i], pid);
-	ft_printf("Sent str: %s, with len: %d\n", str_to_send, len);
 	return (0);
 }

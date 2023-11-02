@@ -6,7 +6,7 @@
 /*   By: danalmei <danalmei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 19:26:53 by danalmei          #+#    #+#             */
-/*   Updated: 2023/10/25 13:34:58 by danalmei         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:25:12 by danalmei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ char	*recive_len(int signal, int *rec_len)
 		if (!final_str)
 			return (NULL);
 		i = 0;
-		return (final_str);==360153== All heap blocks were freed -- no leaks are possible
-
+		return (final_str);
 	}
 	i++;
 	return (NULL);
@@ -62,9 +61,7 @@ void	recive_client_data(int signal)
 	static char	*final_str;
 
 	if (final_str == NULL)
-	{
 		final_str = recive_len(signal, &message_len);
-	}
 	else if (recive_str(signal, message_len, final_str))
 	{
 		ft_printf("%s\n", final_str);
